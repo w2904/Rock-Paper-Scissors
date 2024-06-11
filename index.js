@@ -1,61 +1,83 @@
-const rock = "rock";
-const paper = "paper";
-const scissors = "scissors";
 let humanScore = 0;
 let computerScore = 0;
-const computerSelection = getComputerChoice();
-const humanSelection = getHumanChoice();
+let resultOfRound;
+const resultOfGame = playGame();
 
 function getComputerChoice() {
     randomNumber = Math.floor(Math.random() * 100) + 1;
     if (randomNumber >= 0 && randomNumber <= 32) {
-        return rock;
+        console.log("Computer chose rock");
+        return "rock";
     }
     else if (randomNumber >= 33 && randomNumber <= 66) {
-        return paper;
+        console.log("Computer chose paper");
+        return "paper";
     }
     else {
-        return scissors;
+        console.log("Computer chose scissors");
+        return "scissors";
     }
 }
 
 function getHumanChoice() {
-    getChoice = prompt("Rock, paper or scissors: ");
-    humanChoice = getChoice.toLowerCase();
-    switch (humanChoice) {
-        case "rock":
-            return rock;
-        case "paper":
-            return paper;
-        case "scissors":
-            return scissors;
-        default:
-            alert("This is not a correct choice");
-            return false;
+    let getChoice = prompt("Rock, paper or scissors: ").toLowerCase();
+    while (!["rock", "paper", "scissors"].includes(getChoice)) {
+        alert("This is incorrect choice. Please, choose rock, paper or scissors");
+        getChoice = prompt("Rock, paper or scissors: ").toLowerCase;
     }
+    console.log(`Human chose ${getChoice}`);
+    return getChoice;
 }
 
 function playRound (humanChoice, computerChoice) {
-    if ((humanChoice === rock && computerChoice === scissors) ||
-        (humanChoice === paper && computerChoice === rock) || 
-        (humanChoice === scissors && computerChoice === paper)) {
-            console.log("Humanity won this round!");
-            return ++humanScore;
+    if ((humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") || 
+        (humanChoice === "scissors" && computerChoice === "paper")) {
+            return "humanWon";
         }
-    else if ((computerChoice === rock && humanChoice === scissors) ||
-            (computerChoice === paper && humanChoice === rock) || 
-            (computerChoice === scissors && humanChoice === paper)) {
-                console.log("Computers win this round!");
-                return ++computerScore;
+    else if ((computerChoice === "rock" && humanChoice === "scissors") ||
+            (computerChoice === "paper" && humanChoice === "rock") || 
+            (computerChoice === "scissors" && humanChoice === "paper")) {
+                return "computerWon";
             }
     else {
-        alert("Friendship wins!");
-        return;
+        return "tie";
     }
 }
 
 function playGame() {
     for (let i = 0; i < 5; i++) {
-        playRound(humanSelection, computerSelection);
+        resultOfRound = playRound(getHumanChoice(), getComputerChoice());
+        console.log(resultOfRound);
+        if (resultOfRound === "humanWon") {
+            alert("Humanity wins this round!");
+            console.log("Humanity wins this round!");
+            ++humanScore;
+        }
+        else if (resultOfRound === "computerWon") {
+            alert("Computers win this round!");
+            console.log("Computers win this round!");
+            ++computerScore;
+        }
+        else if (resultOfRound === "tie") {
+            alert("It's a tie!");
+            console.log("It's a tie!");
+            continue;
+        }
+    }
+    if (humanScore > computerScore) {
+        alert("Humanity wins the game!");
+        console.log("Humanity wins the game!");
+        return "Humanity route";
+    }
+    else if (computerScore > humanScore) {
+        alert("Computers wins the game!");
+        console.log("Computers wins the game!");
+        return "Computers route";
+    }
+    else {
+        alert("Friendship wins!");
+        console.log("Friendship wins");
+        return "Friendship route";
     }
 }
