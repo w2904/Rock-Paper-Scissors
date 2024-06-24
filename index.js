@@ -19,15 +19,15 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    let getChoice = prompt("Rock, paper or scissors: ").toLowerCase();
-    while (!["rock", "paper", "scissors"].includes(getChoice)) {
-        alert("This is incorrect choice. Please, choose rock, paper or scissors");
-        getChoice = prompt("Rock, paper or scissors: ").toLowerCase;
-    }
-    console.log(`Human chose ${getChoice}`);
-    return getChoice;
-}
+// function getHumanChoice() {
+//     let getChoice = prompt("Rock, paper or scissors: ").toLowerCase();
+//     while (!["rock", "paper", "scissors"].includes(getChoice)) {
+//         alert("This is incorrect choice. Please, choose rock, paper or scissors");
+//         getChoice = prompt("Rock, paper or scissors: ").toLowerCase;
+//     }
+//     console.log(`Human chose ${getChoice}`);
+//     return getChoice;
+// }
 
 function playRound (humanChoice, computerChoice) {
     if ((humanChoice === "rock" && computerChoice === "scissors") ||
