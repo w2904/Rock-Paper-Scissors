@@ -1,33 +1,41 @@
-let humanScore = 0;
-let computerScore = 0;
-let resultOfRound;
-const resultOfGame = playGame();
+const humanRock = document.querySelector("#pc-rock");
+const humanPaper = document.querySelector("#pc-paper");
+const humanScissors = document.querySelector("#pc-scissors");
+
+const computerRock = document.querySelector("#npc-rock");
+const computerPaper = document.querySelector("#npc-paper");
+const computerScissors = document.querySelector("#npc-scissors");
+
+const humanScore = document.querySelector("#pc-score");
+const computerScore = document.querySelector("#npc-score");
+const result = document.querySelector("#result");
+
 
 function getComputerChoice() {
     randomNumber = Math.floor(Math.random() * 100) + 1;
     if (randomNumber >= 0 && randomNumber <= 32) {
-        console.log("Computer chose rock");
+        computerRock.style.cssText = "border: 1px solid yellow";
         return "rock";
     }
     else if (randomNumber >= 33 && randomNumber <= 66) {
-        console.log("Computer chose paper");
+        computerPaper.style.cssText = "border: 1px solid yellow";
         return "paper";
     }
     else {
-        console.log("Computer chose scissors");
+        computerScissors.style.cssText = "border: 1px solid yellow";
         return "scissors";
     }
 }
 
-// function getHumanChoice() {
-//     let getChoice = prompt("Rock, paper or scissors: ").toLowerCase();
-//     while (!["rock", "paper", "scissors"].includes(getChoice)) {
-//         alert("This is incorrect choice. Please, choose rock, paper or scissors");
-//         getChoice = prompt("Rock, paper or scissors: ").toLowerCase;
-//     }
-//     console.log(`Human chose ${getChoice}`);
-//     return getChoice;
-// }
+function getHumanChoice() {
+    const divRPS = document.querySelector(".rps-choices.human");
+    let getChoice;
+    divRPS.addEventListener("click", (event) => {
+        getChoice = event.target.id;
+        event.target.id.style.cssText = "border: 1px solid yellow";
+    });
+    return getChoice;
+}
 
 function playRound (humanChoice, computerChoice) {
     if ((humanChoice === "rock" && computerChoice === "scissors") ||

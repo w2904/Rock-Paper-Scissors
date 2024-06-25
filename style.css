@@ -18,6 +18,10 @@ body {
     align-items: center;
 }
 
+img {
+    border: 1px solid black;
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -39,13 +43,11 @@ header p {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
-    border-radius: 10px;
     margin-top: 100px;
     gap: 20px;
 }
 
-.result-declaration {
+#result {
     text-align: center;
     font-size: 30px;
     font-weight: bold;

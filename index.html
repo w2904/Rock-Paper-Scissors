@@ -10,27 +10,28 @@
     <body>
         <div class="main-container">
             <header>
-                <p>&#8592  HUMAN SCORE<p>
+                <p id="pc-score">&#8592  HUMAN SCORE<p>
                 <h1>Rock-Paper-Scissors</h1>
-                <p>COMPUTER SCORE  &#8594<p>
+                <p id="npc-score">COMPUTER SCORE  &#8594<p>
             </header>
             <div class="content-container">
                 <div class="human-side">
-                    <div class="rps-choices">
-                        <img class="rock" src="images/rock.png" alt="Image of grey round rock">
-                        <img class="paper" src="images/paper.png" alt="Image of white paper with black border">
-                        <img class="scissors" src="images/scissors.png" alt="Image of white scissors with black borders">
+                    <input type="text" id="username" value="Human" placeholder="Your username">
+                    <div class="rps-choices human">
+                        <input type="image" id="pc-rock" src="images/rock.png" alt="Image of grey round rock">
+                        <input type="image" id="pc-paper" src="images/paper.png" alt="Image of white paper with black border">
+                        <input type="image" id="pc-scissors" src="images/scissors.png" alt="Image of white scissors with black borders">
                     </div>
                 </div>
                 <div class="computer-side">
                     <div class="rps-choices">
-                        <img class="rock" src="images/rock.png" alt="Image of grey round rock">
-                        <img class="paper" src="images/paper.png" alt="Image of white paper with black border">
-                        <img class="scissors" src="images/scissors.png" alt="Image of white scissors with black borders">
+                        <input type="image" id="npc-rock" src="images/rock.png" alt="Image of grey round rock">
+                        <input type="image" id="npc-paper" src="images/paper.png" alt="Image of white paper with black border">
+                        <input type="image" id="npc-scissors" src="images/scissors.png" alt="Image of white scissors with black borders">
                     </div>
                 </div>
             </div>
-            <p class="result-declaration">I'm afraid of what's going to happen soon</p>
+            <p id="result">I'm afraid of what's going to happen soon</p>
         </div>
     </body>
 </html>
