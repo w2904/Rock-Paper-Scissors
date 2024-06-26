@@ -10,6 +10,20 @@ const humanScore = document.querySelector("#pc-score");
 const computerScore = document.querySelector("#npc-score");
 const result = document.querySelector("#result");
 
+const username = localStorage.getItem("username") || "Human";
+
+function handleForm() {
+    const input = document.querySelector("#username");
+    if (input !== "") {
+        localStorage.setItem("username", input.value);
+        return true;
+    }
+    return false;
+}
+
+if (handleForm) {
+    humanScore.textContent = "← " + username + " SCORE";
+}
 
 function getComputerChoice() {
     randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -27,14 +41,10 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    const divRPS = document.querySelector(".rps-choices.human");
-    let getChoice;
-    divRPS.addEventListener("click", (event) => {
-        getChoice = event.target.id;
-        event.target.id.style.cssText = "border: 1px solid yellow";
-    });
-    return getChoice;
+function getHumanChoice(event) {
+    localStorage.setItem = ("human", event.target.id);
+    event.target.classList.toggle("glowing-border");
+    return true;
 }
 
 function playRound (humanChoice, computerChoice) {
