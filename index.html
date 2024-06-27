@@ -10,27 +10,27 @@
     <body>
         <div class="main-container">
             <header>
-                <p id="pc-score">&#8592  HUMAN SCORE</p>
+                <p id="pc-score">&#8592    SCORE</p>
                 <h1>Rock-Paper-Scissors</h1>
                 <p id="npc-score">COMPUTER SCORE  &#8594</p>
             </header>
             <div class="content-container">
                 <div class="human-side">
-                    <form id="usernameForm" onsubmit="return handleForm(this);">
+                    <form id="username-form">
                         <input type="text" id="username" placeholder="Human">
                     </form>
-                    <form class="rps-choices human" onclick="return getHumanChoice(this)">
-                        <input type="image" id="pc-rock" src="images/rock.png" alt="Image of grey round rock">
-                        <input type="image" id="pc-paper" src="images/paper.png" alt="Image of white paper with black border">
-                        <input type="image" id="pc-scissors" src="images/scissors.png" alt="Image of white scissors with black borders">
+                    <form class="rps-choices human">
+                        <input type="image" id="pc-rock" class="image-style" src="images/rock.png" alt="Image of grey round rock">
+                        <input type="image" id="pc-paper" class="image-style" src="images/paper.png" alt="Image of white paper with black border">
+                        <input type="image" id="pc-scissors" class="image-style" src="images/scissors.png" alt="Image of white scissors with black borders">
                     </form>
                 </div>
                 <div class="computer-side">
                     <p>Computer</p>
                     <div class="rps-choices">
-                        <input type="image" id="npc-rock" src="images/rock.png" alt="Image of grey round rock">
-                        <input type="image" id="npc-paper" src="images/paper.png" alt="Image of white paper with black border">
-                        <input type="image" id="npc-scissors" src="images/scissors.png" alt="Image of white scissors with black borders">
+                        <img id="npc-rock" class="image-style" src="images/rock.png" alt="Image of grey round rock">
+                        <img id="npc-paper" class="image-style" src="images/paper.png" alt="Image of white paper with black border">
+                        <img id="npc-scissors" class="image-style" src="images/scissors.png" alt="Image of white scissors with black borders">
                     </div>
                 </div>
             </div>

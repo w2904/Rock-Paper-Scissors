@@ -1,50 +1,88 @@
-const humanRock = document.querySelector("#pc-rock");
-const humanPaper = document.querySelector("#pc-paper");
-const humanScissors = document.querySelector("#pc-scissors");
-
-const computerRock = document.querySelector("#npc-rock");
-const computerPaper = document.querySelector("#npc-paper");
-const computerScissors = document.querySelector("#npc-scissors");
-
-const humanScore = document.querySelector("#pc-score");
 const computerScore = document.querySelector("#npc-score");
 const result = document.querySelector("#result");
 
 const username = localStorage.getItem("username") || "Human";
 
-function handleForm() {
+const humanScore = document.querySelector("#pc-score");
+humanScore.textContent = "← " + username + " SCORE";
+
+const usernameForm = document.querySelector("#username-form");
+
+usernameForm.addEventListener("submit", (event) => {
     const input = document.querySelector("#username");
-    if (input !== "") {
+    if (input.value !== "") {
         localStorage.setItem("username", input.value);
-        return true;
     }
     return false;
+});
+
+const getHumanChoice = document.querySelector(".rps-choices.human");
+
+getHumanChoice.addEventListener("click", (event) => {
+    const choice = event.target;
+    localStorage.setItem("human", choice.id);
+});
+
+    const humanRock = document.querySelector("#pc-rock");
+    const humanPaper = document.querySelector("#pc-paper");
+    const humanScissors = document.querySelector("#pc-scissors");
+    displayHumanChoice(localStorage.getItem("human"));
+
+function displayHumanChoice(choiceID) {
+    switch (choiceID) {
+        case "pc-rock":
+            humanRock.classList.toggle("glowing-border");
+            return true;
+        case "pc-paper":
+            humanPaper.classList.toggle("glowing-border");
+            return true;
+        case "pc-scissors":
+            humanScissors.classList.toggle("glowing-border");
+            return true;
+        default:
+            return false;
+    }
 }
 
-if (handleForm) {
-    humanScore.textContent = "← " + username + " SCORE";
-}
+const computerRock = document.querySelector("#npc-rock");
+const computerPaper = document.querySelector("#npc-paper");
+const computerScissors = document.querySelector("#npc-scissors");
 
 function getComputerChoice() {
-    randomNumber = Math.floor(Math.random() * 100) + 1;
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
     if (randomNumber >= 0 && randomNumber <= 32) {
-        computerRock.style.cssText = "border: 1px solid yellow";
-        return "rock";
+        localStorage.setItem("computer", "rock");
+        return true;
     }
     else if (randomNumber >= 33 && randomNumber <= 66) {
-        computerPaper.style.cssText = "border: 1px solid yellow";
-        return "paper";
+        localStorage.setItem("computer", "paper");
+        return true;
+    }
+    else if (randomNumber >= 67 && randomNumber <= 100) {
+        localStorage.setItem("computer", "scissors");
+        return true;
     }
     else {
-        computerScissors.style.cssText = "border: 1px solid yellow";
-        return "scissors";
+        return false;
     }
 }
 
-function getHumanChoice(event) {
-    localStorage.setItem = ("human", event.target.id);
-    event.target.classList.toggle("glowing-border");
-    return true;
+displayComputerChoice(localStorage.getItem("computer"))
+
+function displayComputerChoice(choiceID) {
+    switch (choiceID) {
+        case "npc-rock":
+            computerRock.classList.toggle("glowing-border");
+            return true;
+        case "npc-paper":
+            computerPaper.classList.toggle("glowing-border");
+            return true;
+        case "npc-scissors":
+            computerScissors.classList.toggle("glowing-border");
+            return true;
+        default:
+            return false;
+    }
 }
 
 function playRound (humanChoice, computerChoice) {
@@ -65,7 +103,7 @@ function playRound (humanChoice, computerChoice) {
 
 function playGame() {
     for (let i = 0; i < 5; i++) {
-        resultOfRound = playRound(getHumanChoice(), getComputerChoice());
+        resultOfRound = playRound(localStorage.getItem("human"), localStorage.getItem("computer"));
         console.log(resultOfRound);
         if (resultOfRound === "humanWon") {
             alert("Humanity wins this round!");
