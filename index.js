@@ -1,9 +1,5 @@
-const computerScore = document.querySelector("#npc-score");
-const result = document.querySelector("#result");
-
 const username = localStorage.getItem("username") || "Human";
 
-const humanScore = document.querySelector("#pc-score");
 humanScore.textContent = "← " + username + " SCORE";
 
 const usernameForm = document.querySelector("#username-form");
@@ -32,12 +28,15 @@ function displayHumanChoice(choiceID) {
     switch (choiceID) {
         case "pc-rock":
             humanRock.classList.toggle("glowing-border");
+            getComputerChoice();
             return true;
         case "pc-paper":
             humanPaper.classList.toggle("glowing-border");
+            getComputerChoice();
             return true;
         case "pc-scissors":
             humanScissors.classList.toggle("glowing-border");
+            getComputerChoice();
             return true;
         default:
             return false;
@@ -51,20 +50,18 @@ const computerScissors = document.querySelector("#npc-scissors");
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     if (randomNumber >= 0 && randomNumber <= 32) {
-        localStorage.setItem("computer", "rock");
+        localStorage.setItem("computer", "npc-rock");
         return true;
     }
     else if (randomNumber >= 33 && randomNumber <= 66) {
-        localStorage.setItem("computer", "paper");
+        localStorage.setItem("computer", "npc-paper");
         return true;
     }
     else if (randomNumber >= 67 && randomNumber <= 100) {
-        localStorage.setItem("computer", "scissors");
+        localStorage.setItem("computer", "npc-scissors");
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
 }
 
 displayComputerChoice(localStorage.getItem("computer"))
@@ -85,15 +82,22 @@ function displayComputerChoice(choiceID) {
     }
 }
 
-function playRound (humanChoice, computerChoice) {
-    if ((humanChoice === "rock" && computerChoice === "scissors") ||
-        (humanChoice === "paper" && computerChoice === "rock") || 
-        (humanChoice === "scissors" && computerChoice === "paper")) {
+const humanScorePara = document.querySelector("#pc-score");
+const computerScorePara = document.querySelector("#npc-score");
+let humanPoints = 0;
+let computerPoints = 0;
+
+function playRound (humanChoice, computerChoice, roundNumber) {
+    if ((humanChoice === "pc-rock" && computerChoice === "npc-scissors") ||
+        (humanChoice === "pc-paper" && computerChoice === "npc-rock") || 
+        (humanChoice === "pc-scissors" && computerChoice === "npc-paper")) {
+            ++humanPoints;
             return "humanWon";
         }
-    else if ((computerChoice === "rock" && humanChoice === "scissors") ||
-            (computerChoice === "paper" && humanChoice === "rock") || 
-            (computerChoice === "scissors" && humanChoice === "paper")) {
+    else if ((computerChoice === "npc-rock" && humanChoice === "pc-scissors") ||
+            (computerChoice === "npc-paper" && humanChoice === "pc-rock") || 
+            (computerChoice === "npc-scissors" && humanChoice === "pc-paper")) {
+                ++computerPoints;
                 return "computerWon";
             }
     else {
@@ -101,25 +105,16 @@ function playRound (humanChoice, computerChoice) {
     }
 }
 
+const result = document.querySelector("#result");
+
+function displayRoundResult() {
+
+}
+
 function playGame() {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 1; i < 6; i++) {
         resultOfRound = playRound(localStorage.getItem("human"), localStorage.getItem("computer"));
-        console.log(resultOfRound);
-        if (resultOfRound === "humanWon") {
-            alert("Humanity wins this round!");
-            console.log("Humanity wins this round!");
-            ++humanScore;
-        }
-        else if (resultOfRound === "computerWon") {
-            alert("Computers win this round!");
-            console.log("Computers win this round!");
-            ++computerScore;
-        }
-        else if (resultOfRound === "tie") {
-            alert("It's a tie!");
-            console.log("It's a tie!");
-            continue;
-        }
+        displayRoundResult(resultOfRound, i);
     }
     if (humanScore > computerScore) {
         alert("Humanity wins the game!");
