@@ -1,6 +1,6 @@
-const username = localStorage.getItem("username") || "Human";
+document.addEventListener("")
 
-humanScore.textContent = "← " + username + " SCORE";
+const username = localStorage.getItem("username") || "Human";
 
 const usernameForm = document.querySelector("#username-form");
 
@@ -14,10 +14,20 @@ usernameForm.addEventListener("submit", (event) => {
 
 const getHumanChoice = document.querySelector(".rps-choices.human");
 
-getHumanChoice.addEventListener("click", (event) => {
-    const choice = event.target;
-    localStorage.setItem("human", choice.id);
-});
+
+function waitForHuman() {
+    return new Promise((resolve) => {
+        getHumanChoice.addEventListener("click", (event) => {
+            const choice = event.target;
+            if (choice.id) {
+                localStorage.setItem("human", choice.id);
+                resolve(choice.id)
+            }
+        }, {
+            once: true
+        });
+    });
+}
 
     const humanRock = document.querySelector("#pc-rock");
     const humanPaper = document.querySelector("#pc-paper");
@@ -29,17 +39,15 @@ function displayHumanChoice(choiceID) {
         case "pc-rock":
             humanRock.classList.toggle("glowing-border");
             getComputerChoice();
-            return true;
+           break;
         case "pc-paper":
             humanPaper.classList.toggle("glowing-border");
             getComputerChoice();
-            return true;
+            break;
         case "pc-scissors":
             humanScissors.classList.toggle("glowing-border");
             getComputerChoice();
-            return true;
-        default:
-            return false;
+            break;
     }
 }
 
@@ -49,22 +57,20 @@ const computerScissors = document.querySelector("#npc-scissors");
 
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
-    if (randomNumber >= 0 && randomNumber <= 32) {
-        localStorage.setItem("computer", "npc-rock");
-        return true;
+    let computerChoice = "";
+    if (randomNumber <= 32) {
+        computerChoice = "npc-rock";
     }
-    else if (randomNumber >= 33 && randomNumber <= 66) {
-        localStorage.setItem("computer", "npc-paper");
-        return true;
+    else if (randomNumber <= 66) {
+        computerChoice = "npc-paper";
     }
-    else if (randomNumber >= 67 && randomNumber <= 100) {
-        localStorage.setItem("computer", "npc-scissors");
-        return true;
+    else {
+        computerChoice = "npc-paper";
     }
-    return false;
+    localStorage.setItem("computer", computerChoice);
+    displayComputerChoice(computerChoice);
+    return true;
 }
-
-displayComputerChoice(localStorage.getItem("computer"))
 
 function displayComputerChoice(choiceID) {
     switch (choiceID) {
@@ -82,22 +88,21 @@ function displayComputerChoice(choiceID) {
     }
 }
 
-const humanScorePara = document.querySelector("#pc-score");
-const computerScorePara = document.querySelector("#npc-score");
 let humanPoints = 0;
 let computerPoints = 0;
+const humanScore = document.querySelector("#pc-score");
+humanScore.textContent = humanPoints + " ← " + username + " SCORE";
+const result = document.querySelector("#result");
 
-function playRound (humanChoice, computerChoice, roundNumber) {
+function playRound (humanChoice, computerChoice) {
     if ((humanChoice === "pc-rock" && computerChoice === "npc-scissors") ||
         (humanChoice === "pc-paper" && computerChoice === "npc-rock") || 
         (humanChoice === "pc-scissors" && computerChoice === "npc-paper")) {
-            ++humanPoints;
             return "humanWon";
         }
     else if ((computerChoice === "npc-rock" && humanChoice === "pc-scissors") ||
             (computerChoice === "npc-paper" && humanChoice === "pc-rock") || 
             (computerChoice === "npc-scissors" && humanChoice === "pc-paper")) {
-                ++computerPoints;
                 return "computerWon";
             }
     else {
@@ -105,30 +110,54 @@ function playRound (humanChoice, computerChoice, roundNumber) {
     }
 }
 
-const result = document.querySelector("#result");
-
-function displayRoundResult() {
-
-}
-
-function playGame() {
-    for (let i = 1; i < 6; i++) {
-        resultOfRound = playRound(localStorage.getItem("human"), localStorage.getItem("computer"));
-        displayRoundResult(resultOfRound, i);
+function displayRoundResult(resultOfRound, roundNumber) {
+    const computerScore = document.querySelector("#npc-score");
+    if (resultOfRound === "humanWon") {
+        ++humanPoints;
+        result.textContent = "Humanity wins Round " + roundNumber + ", but will this continue forever?";
+        humanScore.textContent = humanPoints + " ← " + username + " SCORE";
+        return true;
     }
-    if (humanScore > computerScore) {
-        alert("Humanity wins the game!");
-        console.log("Humanity wins the game!");
-        return "Humanity route";
-    }
-    else if (computerScore > humanScore) {
-        alert("Computers wins the game!");
-        console.log("Computers wins the game!");
-        return "Computers route";
+    else if (resultOfRound === "computerWon") {
+        ++computerPoints;
+        result.textContent = "AI wins Round " + roundNumber + " and this is a start of the end";
+        computerScore.textContent = "COMPUTER SCORE → " + computerPoints;
+        return true;
     }
     else {
-        alert("Friendship wins!");
-        console.log("Friendship wins");
-        return "Friendship route";
+        result.textContent = "I hope friendship wins";
+        return true;
     }
+}
+
+async function playGame() {
+    let resultOfRound = "";
+    let countRound = 1;
+    while (computerPoints < 5 || humanPoints < 5) {
+        await waitForHuman();
+        resultOfRound = playRound(localStorage.getItem("human"), localStorage.getItem("computer"));
+        displayRoundResult(resultOfRound, countRound);
+        ++countRound;
+    }
+    
+    if (humanPoints > computerPoints) {
+        result.textContent = "Humanity wins against rebellious AI, but at what cost?"
+        countRound = 1;
+        return "endTheGame";
+    }
+    else if (computerPoints > humanPoints) {
+        result.textContent = "Praise be to our AI overlords!";
+        countRound = 1;
+        return "endTheGame";
+    }
+    else {
+        result.textContent = "And lived people and robots soul to soul, didn't reap any griefs, and shared joy together forever and always... Right?";
+        countRound = 1;
+        return "endTheGame";
+    }
+}
+
+if (playGame() === "EndTheGame") {
+    humanPoints = 0;
+    computerPoints = 0;
 }
