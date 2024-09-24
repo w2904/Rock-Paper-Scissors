@@ -15,18 +15,21 @@
                 <p id="npc-score">COMPUTER SCORE  &#8594</p>
             </header>
             <div class="content-container">
-                <div class="human-side">
+                <div class="player-side">
                     <form id="username-form">
-                        <input type="text" id="username" placeholder="Human">
+                        <label for="username">USERNAME:</label>
+                        <input type="text" id="username" placeholder="Bipedal humanoid">
                     </form>
-                    <form class="rps-choices human">
+                    <p class="choice-display pc">&lt;CHOICE&gt;</p>
+                    <div class="rps-choices player">
                         <input type="image" id="pc-rock" class="image-style" src="images/rock.png" alt="Image of grey round rock">
                         <input type="image" id="pc-paper" class="image-style" src="images/paper.png" alt="Image of white paper with black border">
                         <input type="image" id="pc-scissors" class="image-style" src="images/scissors.png" alt="Image of white scissors with black borders">
-                    </form>
+                    </div>
                 </div>
                 <div class="computer-side">
-                    <p>Computer</p>
+                    <p>COMPUTER</p>
+                    <p class="choice-display npc">&lt;CHOICE&gt;</p>
                     <div class="rps-choices">
                         <img id="npc-rock" class="image-style" src="images/rock.png" alt="Image of grey round rock">
                         <img id="npc-paper" class="image-style" src="images/paper.png" alt="Image of white paper with black border">
@@ -34,6 +37,8 @@
                     </div>
                 </div>
             </div>
+            <button id="play-button">RESULTS OF ROUND</button>
+            <button id="reset-button">RESET?</button>
             <p id="result">I'm afraid of what's going to happen soon</p>
         </div>
     </body>

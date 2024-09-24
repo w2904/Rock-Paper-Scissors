@@ -2,12 +2,15 @@ html {
     box-sizing: border-box;
 }
 
-*, *::before, *::after {
-    box-sizing: inherit;
+:root {
+    --glowing-border-color: rgb(255, 217, 0);
+    --glowing-border-shadow: 0 0 10px rgb(253, 223, 50);
+    --glowing-border-transition: box-shadow linear 1s;
 }
 
-* {
-    font-family: "Comic Sans MS", "Times New Roman", sans-serif;
+*, *::before, *::after {
+    box-sizing: inherit;
+    font-family: "Comic Sans MS", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
     padding: 0;
 }
@@ -52,9 +55,23 @@ header p {
     height: 170px;
 }
 
-#username-form, .computer-side p {
+#username, .computer-side p {
     margin-bottom: 5px;
     margin-left: 1px;
+}
+
+input[id^="pc"]:focus {
+    border-color: var(--glowing-border-color);
+    box-shadow: var(--glowing-border-shadow);
+    transition: var(--glowing-border-transition);
+}
+
+#play-button {
+    align-self: center;
+    text-align: center;
+    width: calc(7rem + 2vw);
+    height: calc(1rem + 2vh);
+    margin-top: 1rem;
 }
 
 #result {
@@ -65,7 +82,15 @@ header p {
 }
 
 .glowing-border {
-    border-color: rgb(255, 217, 0); 
-    box-shadow: 0 0 10px rgb(253, 223, 50);
-    transition: box-shadow linear 1s;
+    border-color: var(--glowing-border-color); 
+    box-shadow: var(--glowing-border-shadow);
+    transition: var(--glowing-border-transition);
+}
+
+.player-side, .computer-side {
+    font-weight: bold;
+}
+
+#reset-button {
+    display: none;
 }
